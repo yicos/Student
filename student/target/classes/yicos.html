@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<br />
+	<br />
+	<br />
+	<div style="text-align: center;">
+		<button id="start" onclick="start()" style="font-size: 25px">开始</button>
+		<button id="end" onclick="end()" style="font-size: 25px">暂停</button>
+		<select id="min" style="font-size: 25px; height: 300"></select> 
+		<select id="sec" style="font-size: 25px; height: 300; margin-top: 5px;"></select>
+	</div>
+
+	<br />
+	<div id="timer1" class="dropdown"
+		style="color: black; font-size: 80px; text-align: center;">距离结束还有</div>
+	<div id="timer"
+		style="color: red; font-size: 100px; text-align: center;"></div>
+
+
+	<script LANGUAGE="JavaScript">
+		var maxtime = 0; //一个小时，按秒计算，自己调整!  
+		var flag = 1;
+		function CountDown() {
+			if (maxtime >= 0) {
+				minutes = Math.floor(maxtime / 60);
+				seconds = Math.floor(maxtime % 60);
+				msg = minutes + "分" + seconds + "秒";
+				document.all["timer"].innerHTML = msg;
+				--maxtime;
+			} else {
+				flag = 1;
+				clearInterval(timer);
+				alert("时间结束!");
+			}
+		}
+		function start() {
+			if (flag == 1) {
+				if (maxtime <= 0) {
+					var min = document.getElementById("min");
+					maxtime = Number(min.value) * 60;
+
+					var sec = document.getElementById("sec");
+					maxtime = Number(sec.value) + maxtime;
+
+				}
+
+				timer = setInterval("CountDown()", 1000);
+				flag = 0;
+			}
+		}
+		function end() {
+			clearInterval(timer);
+			flag = 1;
+		}
+		function addOption() {
+			//根据id查找对象， 
+			var obj = document.getElementById('min');
+			//添加一个选项 
+			for (var i = 0; i < 15; i++) {
+				obj.options.add(new Option(i + "分钟", i)); //这个兼容IE与firefox 
+			}
+
+			//根据id查找对象， 
+			var sec = document.getElementById('sec');
+			//添加一个选项 
+			for (var j = 0; j < 60; j++) {
+				sec.options.add(new Option(j + "秒", j)); //这个兼容IE与firefox 
+			}
+		}
+		addOption();
+	</script>
+</body>
+</html>
